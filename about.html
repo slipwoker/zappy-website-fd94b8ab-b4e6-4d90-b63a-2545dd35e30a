@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>המומחים שמוצאים מה שאחרים מפספסים — המאתר לאיתור נזקי מים</title>
+    <meta name="description" content="מאחורי כל איתור נזילות מוצלח עומד צוות מנוסה עם ציוד חדשני ותשוקה אמיתית לפתרון בעיות. הכירו את המאתר — העסק שהפך איתור נזקי מים למדע מדויק ואמין לחלוטין.">
+    <meta name="keywords" content="איתור נזילות מים בבית, מומחי נזילות, חברת איתור נזילות, ניסיון מקצועי באינסטלציה">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'fd94b8ab-b4e6-4d90-b63a-2545dd35e30a',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="המומחים שמוצאים מה שאחרים מפספסים — המאתר לאיתור נזקי מים">
+    <meta property="og:description" content="מאחורי כל איתור נזילות מוצלח עומד צוות מנוסה עם ציוד חדשני ותשוקה אמיתית לפתרון בעיות. הכירו את המאתר — העסק שהפך איתור נזקי מים למדע מדויק ואמין לחלוטין.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="המומחים שמוצאים מה שאחרים מפספסים — המאתר לאיתור נזקי מים">
+    <meta name="twitter:description" content="מאחורי כל איתור נזילות מוצלח עומד צוות מנוסה עם ציוד חדשני ותשוקה אמיתית לפתרון בעיות. הכירו את המאתר — העסק שהפך איתור נזקי מים למדע מדויק ואמין לחלוטין.">
+    <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+  
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-light) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-light) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-light) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+<nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="050-000-0000" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-right-group"><div class="nav-brand">
+      <a href="/" class="logo-link"><img class="logo" src="/assets/site-------image-1.webp" alt="המאתר לאיתור נזקי מים"></a>
+    </div><ul class="nav-menu" id="navMenu"><li><a href="/">בית</a></li><li><a href="/services">שירותים</a></li><li><a href="/about">אודות</a></li></ul></div>
+
+    
+
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            margin-top: auto !important;
+            margin-bottom: auto !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-light)) !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: transparent !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '0', 'important');
+          mobileToggle.style.setProperty('bottom', '0', 'important');
+          mobileToggle.style.setProperty('margin-top', 'auto', 'important');
+          mobileToggle.style.setProperty('margin-bottom', 'auto', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '0', 'important');
+          phoneBtn.style.setProperty('bottom', '0', 'important');
+          phoneBtn.style.setProperty('margin-top', 'auto', 'important');
+          phoneBtn.style.setProperty('margin-bottom', 'auto', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu handler (shared by click and touchend)
+    function handleToggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+      const closeIcon = newToggle.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    }
+    
+    // Use click for desktop/emulation and touchend as iOS Safari fallback.
+    // Prevent double-fire with a timestamp guard.
+    var lastToggleTime = 0;
+    function guardedToggle(e) {
+      var now = Date.now();
+      if (now - lastToggleTime < 300) return;
+      lastToggleTime = now;
+      handleToggle(e);
+    }
+    
+    newToggle.addEventListener('click', guardedToggle);
+    newToggle.addEventListener('touchend', guardedToggle);
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '[business_phone]';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // WhatsApp button visibility is now controlled via CSS (siteSettings).
+    // No JS-based desktop hiding — the button is visible on both mobile and desktop by default.
+  });
+})();
+
+</script>
+  
+  <main>
+    <section class="about-story-section" data-layout-spec="אודות-story" dir="rtl">
+  <!-- Decorative dot grid overlay -->
+  <div class="about-story-grid-overlay" aria-hidden="true"></div>
+
+  <!-- Decorative scan line -->
+  <div class="about-story-scan-line" aria-hidden="true"></div>
+
+  <!-- Corner reticle -->
+  <div class="about-story-reticle" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+      <path d="M80,0 L80,24 M80,0 L56,0" stroke="#00D4FF" stroke-width="2" opacity="0.4"></path>
+      <path d="M0,80 L0,56 M0,80 L24,80" stroke="#00D4FF" stroke-width="2" opacity="0.4"></path>
+    </svg>
+  </div>
+
+  <div class="about-story-container">
+    <!-- Content Column -->
+    <div class="about-story-content">
+      <div class="about-story-label">
+        <span class="about-story-label-line"></span>
+        <span class="about-story-label-text">הסיפור שלנו</span>
+      </div>
+
+      <h1 class="about-story-heading">כשהנזק מסתתר,<br><em class="about-story-heading-accent">אנחנו מוצאים אותו</em></h1>
+
+      <p class="about-story-body-main">המאתר הוקמה מתוך הבנה שנזקי מים סמויים הם אחד האתגרים היקרים ביותר שבעל בית יכול להתמודד איתם — לא בגלל הנזילה עצמה, אלא בגלל הניחושים, הפתיחות המיותרות, וההחלטות שמתקבלות בחושך. מאז יומנו הראשון, אנו מתמחים באיתור נזילות מים בדיוק מקצועי: ללא פיצוצים מיותרים, ללא השערות, ועם תשובה ברורה לפני שמגיעים לכלים.</p>
+
+      <p class="about-story-body-sub">כל ביקור מתחיל בהקשבה ומסתיים בממצאים מוכחים. הצוות שלנו מביא ציוד אבחון מתקדם — חיישני לחץ, מצלמות תרמיות, ומאתרי קול — כדי לאתר נזילות סמויות בדיוק של סנטימטרים. כך מקבלים בעלי הדירות שלנו את מה שהם באמת צריכים: שקט נפשי, החלטות מושכלות, ופתרון שעובד.</p>
+
+      <div class="about-story-stats">
+        <div class="about-story-stat">
+          <span class="about-story-stat-num">98<span class="about-story-stat-symbol">%</span></span>
+          <span class="about-story-stat-label">דיוק באיתור</span>
+        </div>
+        <div class="about-story-stat-divider" aria-hidden="true"></div>
+        <div class="about-story-stat">
+          <span class="about-story-stat-num">15<span class="about-story-stat-symbol">+</span></span>
+          <span class="about-story-stat-label">שנות ניסיון</span>
+        </div>
+        <div class="about-story-stat-divider" aria-hidden="true"></div>
+        <div class="about-story-stat">
+          <span class="about-story-stat-num">3K<span class="about-story-stat-symbol">+</span></span>
+          <span class="about-story-stat-label">בדיקות בוצעו</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Column -->
+    <figure class="about-story-figure">
+      <div class="about-story-image-frame">
+        <div class="about-story-image-scan-overlay" aria-hidden="true"></div>
+        <img data-placeholder="about-story-image-1" data-context="A professional male leak detection technician in a dark uniform using a handheld acoustic listening device pressed against a wall in a residential setting. The image is moody, cinematic, and slightly desaturated with a cool blue tint. The technician is focused and precise, conveying expert investigative work. Dramatic side lighting emphasizes the technical equipment. Dark atmospheric background." width="600" height="750" src="/assets/site-about-story-image-1.webp" alt="טכנאי איתור נזילות מקצועי בפעולה עם ציוד אבחון מתקדם">
+        <!-- Scan corner brackets -->
+        <svg data-no-icon-edit="true" aria-hidden="true" class="about-story-frame-corners" viewBox="0 0 600 750" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M0,0 L0,40 M0,0 L40,0" stroke="#00D4FF" stroke-width="2" opacity="0.6"></path>
+          <path d="M600,0 L600,40 M600,0 L560,0" stroke="#00D4FF" stroke-width="2" opacity="0.6"></path>
+          <path d="M0,750 L0,710 M0,750 L40,750" stroke="#00D4FF" stroke-width="2" opacity="0.6"></path>
+          <path d="M600,750 L600,710 M600,750 L560,750" stroke="#00D4FF" stroke-width="2" opacity="0.6"></path>
+        </svg>
+      </div>
+      <figcaption class="about-story-figcaption">
+        <span class="about-story-figcaption-dot" aria-hidden="true"></span>
+        איתור נזילות סמויות ללא פגיעה במבנה
+      </figcaption>
+    </figure>
+  </div>
+
+  <!-- Bottom divider: curved transition to light section -->
+  <div class="about-story-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,80 L0,50 Q180,10 360,40 Q540,65 720,30 Q900,0 1080,35 Q1260,65 1440,45 L1440,80 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="about-values-section" data-layout-spec="אודות-values" dir="rtl">
+  <!-- Decorative background pattern -->
+  <div class="about-values-bg-pattern" aria-hidden="true"></div>
+
+  <!-- Corner reticle decoration -->
+  <div class="about-values-reticle about-values-reticle--tl" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 2 L2 2 L2 60" stroke="var(--primary)" stroke-width="2" fill="none" opacity="0.35"></path>
+    </svg>
+  </div>
+  <div class="about-values-reticle about-values-reticle--br" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 58 L58 58 L58 0" stroke="var(--primary)" stroke-width="2" fill="none" opacity="0.35"></path>
+    </svg>
+  </div>
+
+  <div class="about-values-container">
+    <!-- Intro block -->
+    <header class="about-values-intro">
+      <span class="about-values-label">הערכים שלנו</span>
+      <h2 class="about-values-heading">עבודה מבוססת עובדות.<br>כבוד לנכס שלכם.</h2>
+      <p class="about-values-subheading">כל איתור נזילות מים מתבצע אצלנו לפי שלושה עקרונות ברורים — שמבטיחים לכם אבחון מדויק, שקיפות מלאה, ומינימום הפרעה לחיי היומיום.</p>
+      <div class="about-values-rule" aria-hidden="true"></div>
+    </header>
+
+    <!-- Values cards grid -->
+    <div class="about-values-grid">
+
+      <!-- Card 1: Precision -->
+      <article class="about-values-card">
+        <div class="about-values-card-accent" aria-hidden="true"></div>
+        <div class="about-values-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="20" cy="20" r="12" stroke="currentColor" stroke-width="2"></circle>
+            <circle cx="20" cy="20" r="4" fill="currentColor"></circle>
+            <line x1="20" y1="2" x2="20" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="20" y1="32" x2="20" y2="38" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="2" y1="20" x2="8" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="32" y1="20" x2="38" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+          </svg>
+        </div>
+        <div class="about-values-card-body">
+          <h3 class="about-values-card-title">דיוק בלתי מתפשר</h3>
+          <p class="about-values-card-text">אנחנו משתמשים בציוד אבחון מתקדם כדי לאתר נזילות סמויות בדיוק מרבי — בלי ניחושים, בלי חפירות מיותרות. כל ממצא מגובה בנתונים מדידים שמאפשרים קבלת החלטות מושכלת.</p>
+          <ul class="about-values-card-list">
+            <li><span class="about-values-check" aria-hidden="true">✓</span>ציוד אקוסטי ותרמי מקצועי</li>
+            <li><span class="about-values-check" aria-hidden="true">✓</span>תוצאות מדויקות ומתועדות</li>
+            <li><span class="about-values-check" aria-hidden="true">✓</span>אפס ניחושים — רק עובדות</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Card 2: Transparency -->
+      <article class="about-values-card">
+        <div class="about-values-card-accent" aria-hidden="true"></div>
+        <div class="about-values-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="6" y="8" width="28" height="24" rx="2" stroke="currentColor" stroke-width="2"></rect>
+            <line x1="12" y1="16" x2="28" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="12" y1="22" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            <circle cx="30" cy="28" r="6" fill="var(--bg-light)" stroke="currentColor" stroke-width="2"></circle>
+            <line x1="28" y1="28" x2="32" y2="28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></line>
+            <line x1="30" y1="26" x2="30" y2="30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></line>
+          </svg>
+        </div>
+        <div class="about-values-card-body">
+          <h3 class="about-values-card-title">שקיפות מלאה</h3>
+          <p class="about-values-card-text">לפני כל עבודה — הסבר ברור. אחרי האבחון — דוח מפורט עם ממצאים, תמונות ומיקום מדויק של הנזילה. אנחנו לא מסתירים מידע ולא ממליצים על תיקונים שאינם נחוצים.</p>
+          <ul class="about-values-card-list">
+            <li><span class="about-values-check" aria-hidden="true">✓</span>דוח אבחון מלא בסיום הביקור</li>
+            <li><span class="about-values-check" aria-hidden="true">✓</span>הסבר ברור לפני כל שלב</li>
+            <li><span class="about-values-check" aria-hidden="true">✓</span>מחיר שקוף ללא הפתעות</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Card 3: Respect for property -->
+      <article class="about-values-card">
+        <div class="about-values-card-accent" aria-hidden="true"></div>
+        <div class="about-values-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20 6 L34 14 L34 26 C34 32 27 37 20 38 C13 37 6 32 6 26 L6 14 Z" stroke="currentColor" stroke-width="2" fill="none"></path>
+            <path d="M14 20 L18 24 L26 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div class="about-values-card-body">
+          <h3 class="about-values-card-title">כבוד לנכס שלכם</h3>
+          <p class="about-values-card-text">הנכס שלכם חשוב לנו כמו שלנו. אנחנו פועלים בשיטות לא הרסניות שמאתרות נזילות מים בדירה ישנה ובבתים חדשים כאחד — ומצמצמות לאפס את הצורך בפתיחת קירות או ריצוף.</p>
+          <ul class="about-values-card-list">
+            <li><span class="about-values-check" aria-hidden="true">✓</span>שיטות אבחון לא הרסניות</li>
+            <li><span class="about-values-check" aria-hidden="true">✓</span>סיום עבודה נקי ומסודר</li>
+            <li><span class="about-values-check" aria-hidden="true">✓</span>מינימום הפרעה לשגרה</li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- Bottom wave divider transitioning to dark section -->
+  <div class="about-values-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,80 L0,42 Q60,30 120,40 T240,35 Q300,42 360,34 T480,38 Q540,30 600,40 T720,36 Q780,42 840,33 T960,38 Q1020,30 1080,40 T1200,35 Q1260,42 1320,36 T1440,40 L1440,80 Z" fill="#050D1A"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="about-expertise-section" data-layout-spec="אודות-expertise" dir="rtl">
+  <!-- Decorative dot grid overlay -->
+  <div class="expertise-dot-grid" aria-hidden="true"></div>
+
+  <!-- Decorative scan line -->
+  <div class="expertise-scan-line" aria-hidden="true"></div>
+
+  <div class="expertise-container">
+
+    <!-- Top Header Area -->
+    <div class="expertise-header">
+      <div class="expertise-label">
+        <span class="expertise-label-line"></span>
+        <span class="expertise-label-text">המומחיות שלנו</span>
+      </div>
+      <h2 class="expertise-title">ניסיון שטח אמיתי —<br><span class="expertise-title-accent">לכל סוג נכס ומצב</span></h2>
+      <p class="expertise-intro">אנחנו לא רק מאתרים נזילות — אנחנו מבינים בניינים. בין אם מדובר בדירה ישנה, עסקת נדל"ן קריטית, או מתחם מסחרי, הניסיון שלנו מאפשר לנו לאתר נזילות סמויות בדיוק מרבי לפני שהנזק מתרחב.</p>
+    </div>
+
+    <!-- Horizontal rule -->
+    <div class="expertise-rule" aria-hidden="true"></div>
+
+    <!-- Two-Column List Layout -->
+    <div class="expertise-columns">
+
+      <!-- START (right) column: Experience highlights & approach -->
+      <div class="expertise-col expertise-col-approach">
+        <h3 class="expertise-col-title">
+          <span class="col-title-icon" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"></circle>
+              <path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+          </span>
+          גישה מקצועית ושיטת עבודה
+        </h3>
+        <ul class="expertise-list">
+          <li class="expertise-item">
+            <span class="item-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9l4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <div class="item-content">
+              <strong class="item-title">איתור נזילות ללא פתיחת גמר</strong>
+              <p class="item-desc">שימוש בציוד גילוי מתקדם — אקוסטי, תרמי ולחץ — לאיתור מדויק לפני כל פתיחה של קירות, ריצוף או תקרה.</p>
+            </div>
+          </li>
+          <li class="expertise-item">
+            <span class="item-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9l4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <div class="item-content">
+              <strong class="item-title">ניסיון בבניינים ישנים ומורכבים</strong>
+              <p class="item-desc">היכרות עמוקה עם מערכות צנרת מיושנות, שיטות בנייה ישנות ותשתיות מוסתרות — אתגרים שדורשים ידע שלא נרכש בקורס.</p>
+            </div>
+          </li>
+          <li class="expertise-item">
+            <span class="item-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9l4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <div class="item-content">
+              <strong class="item-title">דוח ממצאים מפורט</strong>
+              <p class="item-desc">בסיום הבדיקה מסופק דוח כתוב הכולל תיעוד מיקום הנזילה, היקף הנזק המשוער והמלצות לתיקון — מסמך שיכול לשמש גם מול ביטוח.</p>
+            </div>
+          </li>
+          <li class="expertise-item">
+            <span class="item-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 9l4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <div class="item-content">
+              <strong class="item-title">זמינות גבוהה ותגובה מהירה</strong>
+              <p class="item-desc">נזילה לא מחכה. אנחנו מגיעים בהקדם, מאבחנים במקום ומאפשרים לכם לקבל החלטות מהירות ומושכלות.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- END (left) column: Client types & property scenarios -->
+      <div class="expertise-col expertise-col-clients">
+        <h3 class="expertise-col-title">
+          <span class="col-title-icon" aria-hidden="true">
+            <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="3" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"></rect>
+              <rect x="11" y="3" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"></rect>
+              <rect x="3" y="11" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"></rect>
+              <rect x="11" y="11" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"></rect>
+            </svg>
+          </span>
+          סוגי לקוחות ותרחישים נפוצים
+        </h3>
+        <ul class="expertise-list">
+          <li class="expertise-item">
+            <span class="item-icon item-icon-accent" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 2L2 7v9h5v-4h4v4h5V7L9 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <div class="item-content">
+              <strong class="item-title">בעלי דירות ובתים פרטיים</strong>
+              <p class="item-desc">זיהוי נזקי מים בדירה ישנה, עלייה בלתי מוסברת בחשבון המים, רטיבות בקירות או בתקרה — אנחנו מוצאים את המקור.</p>
+            </div>
+          </li>
+          <li class="expertise-item">
+            <span class="item-icon item-icon-accent" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 2L2 7v9h5v-4h4v4h5V7L9 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path>
+                <path d="M3 7h12" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"></path>
+              </svg>
+            </span>
+            <div class="item-content">
+              <strong class="item-title">עסקאות נדל"ן ורכישת נכסים</strong>
+              <p class="item-desc">בדיקת נזילות מקצועית לפני חתימה על חוזה — מגנה על הרוכש מהפתעות יקרות ומספקת כוח מיקוח מול המוכר.</p>
+            </div>
+          </li>
+          <li class="expertise-item">
+            <span class="item-icon item-icon-accent" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="5" width="14" height="10" rx="1" stroke="currentColor" stroke-width="1.5"></rect>
+                <path d="M6 5V4a3 3 0 016 0v1" stroke="currentColor" stroke-width="1.5"></path>
+              </svg>
+            </span>
+            <div class="item-content">
+              <strong class="item-title">מנהלי נכסים ועסקים</strong>
+              <p class="item-desc">פתרון מהיר לנזילות סמויות במשרדים, חנויות ומחסנים — מזעור הפרעה לפעילות השוטפת ומניעת נזקים משניים.</p>
+            </div>
+          </li>
+          <li class="expertise-item">
+            <span class="item-icon item-icon-accent" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 14h14M4 14V8l5-5 5 5v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <div class="item-content">
+              <strong class="item-title">ועדי בתים ובניינים משותפים</strong>
+              <p class="item-desc">איתור נזילות מים בצנרת משותפת, גגות ומרתפים — עם דוח מפורט לצורך חלוקת עלויות תיקון הוגנת בין הדיירים.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Horizontal rule -->
+    <div class="expertise-rule" aria-hidden="true"></div>
+
+    <!-- Narrow Horizontal Image Strip -->
+    <div class="expertise-image-strip">
+      <div class="image-strip-overlay" aria-hidden="true"></div>
+      <div class="image-strip-reticle" aria-hidden="true">
+        <svg data-no-icon-edit="true" aria-hidden="true" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 20V0h20" stroke="#00D4FF" stroke-width="2" stroke-linecap="round"></path>
+          <path d="M80 20V0H60" stroke="#00D4FF" stroke-width="2" stroke-linecap="round"></path>
+          <path d="M0 60v20h20" stroke="#00D4FF" stroke-width="2" stroke-linecap="round"></path>
+          <path d="M80 60v20H60" stroke="#00D4FF" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
+      </div>
+      <div class="image-strip-tag">
+        <span class="strip-tag-dot" aria-hidden="true"></span>
+        <span>סביבת עבודה אמיתית — בדיקה בשטח</span>
+      </div>
+      <img data-placeholder="about-expertise-image-1" data-context="A professional leak detection technician using acoustic and thermal detection equipment inside a residential apartment. The technician holds a specialized sensor device against a tiled wall, wearing work gear. The environment shows a bathroom or utility room with older plumbing. The lighting is dramatic with a slight blue-cyan tint suggesting thermal imaging. The image conveys expertise, precision, and investigative professionalism in the plumbing inspection industry." width="1200" height="320" src="/assets/site-about-expertise-image-1.webp" alt="טכנאי איתור נזילות מקצועי עובד עם ציוד גילוי מתקדם בבדיקת שטח">
+    </div>
+
+  </div>
+
+  <!-- Bottom angled divider with gold trace line -->
+  <div class="expertise-divider-wrapper" aria-hidden="true">
+    <div class="expertise-gold-trace" aria-hidden="true"></div>
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,80 L0,40 L1440,10 L1440,80 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section class="about-reviews-section" data-layout-spec="אודות-reviews" dir="rtl">
+  <!-- Decorative scanline overlay -->
+  <div class="about-reviews-scanlines" aria-hidden="true"></div>
+
+  <div class="about-reviews-container">
+
+    <!-- Section Header -->
+    <div class="about-reviews-header">
+      <span class="about-reviews-label">עדויות לקוחות</span>
+      <h2 class="about-reviews-title">מה אומרים עלינו הלקוחות</h2>
+      <p class="about-reviews-subtitle">סיפורי אמון אמיתיים — מקצועיות, בהירות ממצאים, ושקט נפשי שחזר בדיוק כשהיה נדרש ביותר</p>
+    </div>
+
+    <!-- Asymmetric Review Cluster -->
+    <div class="about-reviews-cluster">
+
+      <!-- Large Review Card 1 -->
+      <article class="about-review-card about-review-card--large about-review-card--1">
+        <div class="about-review-card-top">
+          <div class="about-review-stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <div class="about-review-verified">
+            <i class="fas fa-shield-check"></i>
+            <small>לקוח מאומת</small>
+          </div>
+        </div>
+        <blockquote class="about-review-quote">
+          <p>"קראתי לאיתור נזילות אחרי שחודשים רצופים ראיתי את חשבון המים שלי מטפס. שלחו אלי טכנאי שהגיע עם ציוד אלקטרוני מתקדם, ותוך פחות משעה מצא נזילה סמויה בתוך הקיר שאף אחד לא ראה. הוא הסביר לי בדיוק מה קורה, הראה לי את הממצאים, ולא הגזים בתיקון. מאז חשבון המים חזר לנורמלי. שירות מדהים של אנשי מקצוע אמיתיים."</p>
+        </blockquote>
+        <footer class="about-review-author">
+          <div class="about-review-avatar">
+            <span>ד</span>
+          </div>
+          <div class="about-review-author-info">
+            <strong>דוד כהן</strong>
+            <small>בעל דירה, תל אביב</small>
+          </div>
+        </footer>
+        <div class="about-review-accent-line" aria-hidden="true"></div>
+      </article>
+
+      <!-- Large Review Card 2 -->
+      <article class="about-review-card about-review-card--large about-review-card--2">
+        <div class="about-review-card-top">
+          <div class="about-review-stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <div class="about-review-verified">
+            <i class="fas fa-shield-check"></i>
+            <small>לקוח מאומת</small>
+          </div>
+        </div>
+        <blockquote class="about-review-quote">
+          <p>"גיליתי רטיבות בתקרה של הסלון ולא ידעתי מאיפה היא מגיעה. המאתר הגיעו מהר, עם גישה מסודרת ומקצועית לחלוטין. הם זיהו נזילות סמויות בצנרת הדירה שמעלי — בלי לפתוח קירות מיותרים, בלי ניחושים. הדוח שקיבלתי היה ברור ומפורט. הרגשתי שאני בידיים טובות לאורך כל התהליך."</p>
+        </blockquote>
+        <footer class="about-review-author">
+          <div class="about-review-avatar">
+            <span>מ</span>
+          </div>
+          <div class="about-review-author-info">
+            <strong>מירי לוי</strong>
+            <small>דיירת בבניין משותף, ירושלים</small>
+          </div>
+        </footer>
+        <div class="about-review-accent-line" aria-hidden="true"></div>
+      </article>
+
+      <!-- Small Summary Quote Tile — peeks from bottom-end -->
+      <article class="about-review-card about-review-card--small">
+        <div class="about-review-quote-mark" aria-hidden="true">”</div>
+        <blockquote class="about-review-quote about-review-quote--small">
+          <p>"איתור נזילות מים בבית שלנו שנמשך שנה — נפתר תוך שעה וחצי. פשוט מדהים."</p>
+        </blockquote>
+        <footer class="about-review-author">
+          <div class="about-review-avatar about-review-avatar--sm">
+            <span>א</span>
+          </div>
+          <div class="about-review-author-info">
+            <strong>אבי שמעוני</strong>
+            <small>רמת גן</small>
+          </div>
+        </footer>
+        <div class="about-review-stars about-review-stars--sm">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+      </article>
+
+    </div><!-- /.about-reviews-cluster -->
+  </div><!-- /.about-reviews-container -->
+
+  <!-- Bottom Divider: charcoal gradient rise with scanlines -->
+  <div class="about-reviews-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1280 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="arDivGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#121417" stop-opacity="0"></stop>
+          <stop offset="100%" stop-color="#121417" stop-opacity="1"></stop>
+        </linearGradient>
+        <pattern id="arScanlines" x="0" y="0" width="1280" height="3" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="1" x2="1280" y2="1" stroke="rgba(0,212,255,0.04)" stroke-width="1"></line>
+        </pattern>
+      </defs>
+      <rect width="1280" height="90" fill="url(#arDivGrad)"></rect>
+      <rect width="1280" height="90" fill="url(#arScanlines)"></rect>
+      <path d="M0,90 L0,55 Q160,42 320,50 T640,44 Q800,38 960,48 T1280,52 L1280,90 Z" fill="#050D1A"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section class="about-contact-bridge-section" data-layout-spec="אודות-contact-bridge" dir="rtl">
+  <!-- Moisture-map dot grid texture -->
+  <div class="acb-texture" aria-hidden="true"></div>
+
+  <!-- Scan-line decorative accent -->
+  <div class="acb-scanline" aria-hidden="true"></div>
+
+  <!-- Corner reticle decoration -->
+  <div class="acb-reticle" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 20 L0 0 L20 0" stroke="#00D4FF" stroke-width="2" stroke-linecap="square"></path>
+      <path d="M60 0 L80 0 L80 20" stroke="#00D4FF" stroke-width="2" stroke-linecap="square"></path>
+      <path d="M80 60 L80 80 L60 80" stroke="#00D4FF" stroke-width="2" stroke-linecap="square"></path>
+      <path d="M20 80 L0 80 L0 60" stroke="#00D4FF" stroke-width="2" stroke-linecap="square"></path>
+    </svg>
+  </div>
+
+  <div class="acb-container">
+    <!-- Cyan glow pulse -->
+    <div class="acb-glow-pulse" aria-hidden="true"></div>
+
+    <!-- Eyebrow label -->
+    <div class="acb-eyebrow">איתור נזילות מים</div>
+
+    <!-- Main heading -->
+    <h2 class="acb-heading">יש לכם נזילה סמויה?<br>בואו נמצא אותה יחד</h2>
+
+    <!-- Body paragraph -->
+    <p class="acb-body">איתור נזילות מדויק מתחיל בשיחה אחת. צוות המאתר ישמע אתכם, יאבחן את הבעיה ויספק פתרון מקצועי — ללא פגיעה מיותרת בקירות ובריצפה.</p>
+
+    <!-- CTA Button -->
+    <div class="acb-cta-wrap">
+      <a href="/contact" class="acb-btn-primary">
+        <span>צרו קשר עכשיו</span>
+        <svg data-element-type="icon" data-icon-type="svg" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Reassurance line -->
+    <p class="acb-reassurance">מענה מהיר · ללא התחייבות · פועלים ברחבי הארץ</p>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer" dir="rtl">
+  <div class="footer-top">
+    <div class="footer-container">
+      <div class="footer-grid">
+
+        <!-- Column 1: Company Info -->
+        <div class="footer-col footer-col--brand">
+          <div class="footer-logo-wrap">
+            <img src="/assets/logo.webp" alt="המאתר לאיתור נזקי מים" class="logo">
+          </div>
+          <p class="footer-tagline">איתור מקצועי של נזקי מים — מדויק, מהיר ואמין.</p>
+          <div class="footer-social">
+            
+            
+            
+          </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="footer-col">
+          <h3 class="footer-heading"><span class="footer-heading-accent"></span>ניווט מהיר</h3>
+          <ul class="footer-nav">
+            <li><a href="/">בית</a></li>
+            <li><a href="/services">שירותים</a></li>
+            <li><a href="/about">אודות</a></li>
+            <li><a href="/contact">צור קשר</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact Info -->
+        <div class="footer-col">
+          <h3 class="footer-heading"><span class="footer-heading-accent"></span>יצירת קשר</h3>
+          <ul class="footer-contact">
+            <li>
+              <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+              <span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span>
+            </li>
+            <li>
+              <span class="contact-icon"><i class="fas fa-phone"></i></span>
+              <span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span>
+            </li>
+            <li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+              <span class="contact-text">[business_address]</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: CTA / Diagnostic Badge -->
+        <div class="footer-col footer-col--cta">
+          <h3 class="footer-heading"><span class="footer-heading-accent"></span>זמינים עבורך</h3>
+          <div class="footer-badge">
+            <div class="footer-badge__pulse"></div>
+            <div class="footer-badge__icon"><i class="fas fa-search-location"></i></div>
+            <p class="footer-badge__label">שירות איתור נזקים</p>
+            <p class="footer-badge__sub">24/7 זמינות מלאה</p>
+          </div>
+          <a href="/contact" class="footer-cta-btn">קבל הצעת מחיר</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <div class="footer-container">
+      <div class="footer-bottom-inner">
+        <p class="footer-copy">© 2026 המאתר לאיתור נזקי מים. כל הזכויות שמורות.</p>
+        <div class="footer-legal">
+          <a href="/privacy">מדיניות פרטיות</a>
+          <span class="footer-sep">|</span>
+          <a href="/terms">תנאי שימוש</a>
+          <span class="footer-sep">|</span>
+          <a href="/accessibility">נגישות</a>
+          <span class="footer-sep">|</span>
+          <a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  
+  
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+
+    <script id="zappy-navbar-scroll-effect">
+    (function(){
+      var nb=document.querySelector('nav.navbar,.navbar:not(.zappy-catalog-menu)');
+      var cm=document.querySelector('.zappy-catalog-menu,#zappy-catalog-menu');
+      if(!nb)return;
+      var fb='rgba(245,247,250,0.85)';
+      var th=60;
+      var rs=getComputedStyle(document.documentElement);
+      var td=rs.getPropertyValue('--text-dark').trim()||'#1a1a1a';
+      var tl=rs.getPropertyValue('--text-light').trim()||'#ffffff';
+      var st=true?td:tl;
+      nb.style.transition='background 0.3s ease,backdrop-filter 0.3s ease,-webkit-backdrop-filter 0.3s ease,box-shadow 0.3s ease';
+      if(cm)cm.style.transition='background 0.3s ease,backdrop-filter 0.3s ease,-webkit-backdrop-filter 0.3s ease';
+      var neSel='a,.navbar-brand,.navbar-brand a,.dropdown-toggle,.mobile-toggle,.phone-header-btn,.mobile-hamburger-btn,.mobile-close-btn,.mobile-submenu-toggle,.nav-link';
+      var skipCls=['cart-link','login-link','nav-search-toggle','search-toggle'];
+      function sTC(c,clr){var els=c.querySelectorAll(neSel);for(var i=0;i<els.length;i++){var sk=false;if(els[i].closest('.sub-menu')||els[i].closest('.dropdown-menu')){sk=true;}for(var j=0;j<skipCls.length;j++){if(els[i].classList.contains(skipCls[j])){sk=true;break;}}if(!sk)els[i].style.setProperty('color',clr,'important');}}
+      function cTC(c){var els=c.querySelectorAll(neSel);for(var i=0;i<els.length;i++){if(els[i].closest('.sub-menu')||els[i].closest('.dropdown-menu'))continue;els[i].style.removeProperty('color');}}
+      function applyScrolled(){
+        nb.classList.add('scrolled');
+        if(window.innerWidth>768){
+          nb.style.setProperty('--frosted-text',st);
+          nb.style.setProperty('background-image','none','important');
+          nb.style.setProperty('background-color',fb,'important');
+          nb.style.backdropFilter='blur(12px)';nb.style.webkitBackdropFilter='blur(12px)';nb.style.boxShadow='0 2px 16px rgba(0,0,0,0.12)';
+          sTC(nb,st);
+        }
+        if(cm){cm.classList.add('scrolled');if(window.innerWidth>768){cm.style.setProperty('background',fb,'important');cm.style.setProperty('backdrop-filter','blur(12px)','important');cm.style.setProperty('-webkit-backdrop-filter','blur(12px)','important');sTC(cm,st);}}
+      }
+      function onS(){
+        if(window._zappyNavNoDarkHero) return;
+        if(window.innerWidth<=768){nb.classList.remove('scrolled');cTC(nb);if(cm){cm.classList.remove('scrolled');cTC(cm);}return;}
+        var y=window.scrollY||window.pageYOffset;
+        if(y>th){
+          nb.classList.add('scrolled');nb.style.setProperty('background-color',fb,'important');nb.style.setProperty('background-image','none','important');
+          nb.style.setProperty('--frosted-text',st);nb.style.backdropFilter='blur(12px)';nb.style.webkitBackdropFilter='blur(12px)';nb.style.boxShadow='0 2px 16px rgba(0,0,0,0.12)';
+          sTC(nb,st);
+          if(cm){cm.classList.add('scrolled');cm.style.setProperty('background',fb,'important');cm.style.setProperty('backdrop-filter','blur(12px)','important');cm.style.setProperty('-webkit-backdrop-filter','blur(12px)','important');sTC(cm,st);}
+        }else{
+          nb.classList.remove('scrolled');nb.style.setProperty('background-color','transparent','important');nb.style.removeProperty('background-image');
+          nb.style.removeProperty('--frosted-text');nb.style.backdropFilter='none';nb.style.webkitBackdropFilter='none';nb.style.boxShadow='none';
+          cTC(nb);
+          if(cm){cm.classList.remove('scrolled');cm.style.setProperty('background','transparent','important');cm.style.setProperty('backdrop-filter','none','important');cm.style.setProperty('-webkit-backdrop-filter','none','important');cTC(cm);}
+        }
+      }
+      function sLum(rv,gv,bv){rv/=255;gv/=255;bv/=255;rv=rv<=0.03928?rv/12.92:Math.pow((rv+0.055)/1.055,2.4);gv=gv<=0.03928?gv/12.92:Math.pow((gv+0.055)/1.055,2.4);bv=bv<=0.03928?bv/12.92:Math.pow((bv+0.055)/1.055,2.4);return 0.2126*rv+0.7152*gv+0.0722*bv;}
+      window.addEventListener('scroll',onS,{passive:true});
+      window.addEventListener('resize',onS,{passive:true});
+      onS();
+      var heroEl=document.querySelector('section[class*="hero"],[data-hero-type],main>section:first-child');
+      var hasDH=false;
+      if(heroEl){var hCs=getComputedStyle(heroEl);var hBI=hCs.backgroundImage;if(hBI&&hBI!=='none'){if(hBI.indexOf('url(')!==-1){var hM2=hCs.backgroundColor.match(/\d+/g);if(hM2&&hM2.length>=3){hasDH=sLum(parseInt(hM2[0]),parseInt(hM2[1]),parseInt(hM2[2]))<0.4;}else{hasDH=true;}}else if(hBI.indexOf('gradient')!==-1){var cM=hBI.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/g);if(cM&&cM.length>0){var tLm=0;for(var ci=0;ci<cM.length;ci++){var pts=cM[ci].match(/\d+/g);tLm+=sLum(parseInt(pts[0]),parseInt(pts[1]),parseInt(pts[2]));}hasDH=(tLm/cM.length)<0.4;}else{hasDH=true;}}else{hasDH=true;}}else{var hM=hCs.backgroundColor.match(/\d+/g);if(hM&&hM.length>=3){hasDH=sLum(parseInt(hM[0]),parseInt(hM[1]),parseInt(hM[2]))<0.4;}}}
+      if(!hasDH){window.removeEventListener('scroll',onS);window.removeEventListener('resize',onS);applyScrolled();window._zappyNavNoDarkHero=true;}
+    })();
+    </script>
+</body>
+</html>
