@@ -43,6 +43,7 @@ Information about WCAG compliance and accessibility features.
 - Email: amlhativ4@gmail.com
 - Phone: 0522987032
 - Phone (tel): tel:0522987032
+- Address: 289, חורפיש, ישראל, 2515500, ישראל
 
 ### Contact form
 - URL: https://example.com/contact
