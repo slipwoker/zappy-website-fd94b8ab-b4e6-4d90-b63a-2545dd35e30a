@@ -628,9 +628,9 @@ X: 2.4m · Y: 0.9m
 ### יצירת קשר
 
 
-- [business_email]
+- amlhativ4@gmail.com
 
-- [business_phone]
+- 0522987032
 
 - [business_address]
 
@@ -1217,9 +1217,9 @@ Description: מאיתור נזילות סמויות ועד זיהוי נזקי �
 ### יצירת קשר
 
 
-- [business_email]
+- amlhativ4@gmail.com
 
-- [business_phone]
+- 0522987032
 
 - [business_address]
 
@@ -1790,9 +1790,9 @@ Description: מאחורי כל איתור נזילות מוצלח עומד צו�
 ### יצירת קשר
 
 
-- [business_email]
+- amlhativ4@gmail.com
 
-- [business_phone]
+- 0522987032
 
 - [business_address]
 
@@ -2370,9 +2370,9 @@ SCAN ACTIVE
 ### יצירת קשר
 
 
-- [business_email]
+- amlhativ4@gmail.com
 
-- [business_phone]
+- 0522987032
 
 - [business_address]
 
@@ -2576,9 +2576,9 @@ Description: מדיניות הפרטיות שלנו - כיצד אנו אוספי
 
 - חברה: המאתר לאיתור נזקי מים
 
-- אימייל: [business_email]
+- אימייל: amlhativ4@gmail.com
 
-- טלפון: [business_phone]
+- טלפון: 0522987032
 
 - כתובת: [business_address]
 
@@ -2636,9 +2636,9 @@ Description: מדיניות הפרטיות שלנו - כיצד אנו אוספי
 ### יצירת קשר
 
 
-- [business_email]
+- amlhativ4@gmail.com
 
-- [business_phone]
+- 0522987032
 
 - [business_address]
 
@@ -2850,9 +2850,9 @@ Description: הצהרת הנגישות שלנו - מחויבותנו לנגיש�
 
 - חברה: המאתר לאיתור נזקי מים
 
-- אימייל: [business_email]
+- אימייל: amlhativ4@gmail.com
 
-- טלפון: [business_phone]
+- טלפון: 0522987032
 
 
 
@@ -2911,9 +2911,9 @@ Description: הצהרת הנגישות שלנו - מחויבותנו לנגיש�
 ### יצירת קשר
 
 
-- [business_email]
+- amlhativ4@gmail.com
 
-- [business_phone]
+- 0522987032
 
 - [business_address]
 
@@ -3148,9 +3148,9 @@ Description: תנאי השימוש באתר - הזכויות והחובות של
 
 - חברה: המאתר לאיתור נזקי מים
 
-- אימייל: [business_email]
+- אימייל: amlhativ4@gmail.com
 
-- טלפון: [business_phone]
+- טלפון: 0522987032
 
 - כתובת: [business_address]
 
@@ -3205,9 +3205,9 @@ Description: תנאי השימוש באתר - הזכויות והחובות של
 ### יצירת קשר
 
 
-- [business_email]
+- amlhativ4@gmail.com
 
-- [business_phone]
+- 0522987032
 
 - [business_address]
 
