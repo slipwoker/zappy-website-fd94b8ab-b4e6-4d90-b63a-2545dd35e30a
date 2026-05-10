@@ -7,33 +7,33 @@
 ## Pages
 
 ### בית
-https://example.com
+https://hameitarleiturnezakemayim.zappy5.app
 נזילה סמויה יכולה להרוס את הבית שלך בשקט. המאתר לאיתור נזקי מים מאתר כל נזילה במהירות ובדיוק מקצועי. התקשר עכשיו וחסוך אלפי שקלים בנזקי מים!
 
 ### שירותים
-https://example.com/services
+https://hameitarleiturnezakemayim.zappy5.app/services
 מאיתור נזילות סמויות ועד זיהוי נזקי מים בדירה ישנה — השירותים שלנו מכסים כל תרחיש. טכנולוגיה מתקדמת, ללא פתיחת קירות, עם תוצאות מדויקות. גלה את כל השירותים שלנו!
 
 ### אודות
-https://example.com/about
+https://hameitarleiturnezakemayim.zappy5.app/about
 מאחורי כל איתור נזילות מוצלח עומד צוות מנוסה עם ציוד חדשני ותשוקה אמיתית לפתרון בעיות. הכירו את המאתר — העסק שהפך איתור נזקי מים למדע מדויק ואמין לחלוטין.
 
 ### צור קשר
-https://example.com/contact
+https://hameitarleiturnezakemayim.zappy5.app/contact
 כל שעה שעוברת עם נזילה לא מטופלת עולה לך כסף. צור קשר עכשיו עם המאתר לאיתור נזקי מים לקבלת אבחון מהיר, מחיר שקוף ופתרון מקצועי לכל בעיית איתור נזילות מים בבית.
 
 ## Legal & Policy
 
 ### Privacy Policy
-https://example.com/privacy
+https://hameitarleiturnezakemayim.zappy5.app/privacy
 Information about how user data is collected, stored, and protected.
 
 ### Terms & Conditions
-https://example.com/terms
+https://hameitarleiturnezakemayim.zappy5.app/terms
 Legal terms describing service usage, rights, and policies.
 
 ### Accessibility Statement
-https://example.com/accessibility
+https://hameitarleiturnezakemayim.zappy5.app/accessibility
 Information about WCAG compliance and accessibility features.
 
 ---
@@ -46,8 +46,8 @@ Information about WCAG compliance and accessibility features.
 - Address: 289, חורפיש, ישראל, 2515500, ישראל
 
 ### Contact form
-- URL: https://example.com/contact
-- Endpoint: https://example.com/api/email/contact-form
+- URL: https://hameitarleiturnezakemayim.zappy5.app/contact
+- Endpoint: https://hameitarleiturnezakemayim.zappy5.app/api/email/contact-form
 - Method: POST
 - Content-Type: application/json
 - Fields:
@@ -80,6 +80,6 @@ A leak detection service business specializing in identifying and locating water
 
 # Machine-readable feeds
 
-- Sitemap (XML): https://example.com/sitemap.xml
-- Robots: https://example.com/robots.txt
-- Flattened page text (for LLMs): https://example.com/llms-full.txt
+- Sitemap (XML): https://hameitarleiturnezakemayim.zappy5.app/sitemap.xml
+- Robots: https://hameitarleiturnezakemayim.zappy5.app/robots.txt
+- Flattened page text (for LLMs): https://hameitarleiturnezakemayim.zappy5.app/llms-full.txt
